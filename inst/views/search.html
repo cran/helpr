@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+
+  <link rel="stylesheet" type="text/css" href="/_styles/reset-fonts-grids.css" />
+  <link rel="stylesheet" type="text/css" href="/_styles/r-help.css" />
+  <link rel="stylesheet" type="text/css" href="/_styles/jquery.rating.css" />
+  
+  <script type="text/javascript" src="/_scripts/jquery-latest.js"></script>
+
+
+  <title>R help</title>
+</head>
+
+<body>
+  <div id="watermark">search</div>
+  <div id="doc2" class="yui-t6">
+  <div id="hd">
+    <a href="/index.html">R</a> 
+    <%= render_snippet("search_bar") %>
+  </div>
+
+  <div id="search_bd">
+  <div id="yui-main">
+    <h1>Results for: "<%= query %>"</h1>
+
+
+    <% if(length(urls) < 1){ -%>
+
+      <!-- style and text taken from google.com with a bad search -->
+      Your search - <strong><%= query %></strong> - did not match any documents.<br/>
+      <br/>
+      Suggestions:<br/>
+      <ul>
+        <li>Make sure all words are spelled correctly.</li>
+        <li>Try different keywords.</li>
+        <li>Try more general keywords.</li>
+        <li>Try fewer keywords. </li>
+      </ul>
+    <% } %>
+
+    <% for(i in seq_along(urls)){ -%>
+      <% pkg_and_topic = package_and_topic_from_url(urls[i]) %>
+      <%= render_snippet("package_topic_desc", list(pkg = pkg_and_topic$pkg, topic = pkg_and_topic$topic, items = items[[i]], query = query)) %>
+    <% } %>
+<br />
+    <%= render_snippet("next_previous", list(
+      query = query,
+      start_pos = start_pos,
+      row_count = row_count,
+      total_item_count = total_item_count
+    )) %>
+
+  </div>
+  <div class="yui-b"><div class = "sidebar"></div></div>
+
+  </div><!-- end bd -->
+
+  <%= render_snippet("footer", list(disqus = FALSE, html = html)) %>
+
+</div></body>
+</html>

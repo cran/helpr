@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+
+  <link rel="stylesheet" type="text/css" href="/_styles/reset-fonts-grids.css" />
+  <link rel="stylesheet" type="text/css" href="/_styles/r-help.css" />
+  <link rel="stylesheet" type="text/css" href="/_styles/jquery.rating.css" />
+  
+  <%= render_snippet("growl") %>
+
+  <script type="text/javascript" src="/_scripts/package.js"></script>
+
+  <%= render_snippet("disqus_header", list(name = str_c(package, "_demo_", name))) %>
+  <title><%= package %> <%= name %>. R help</title>
+</head>
+
+<body onLoad="set_on_click('#demo_source_code'); $('#run_highlight').hide();">
+  <div id="watermark"><%= package %></div>
+  <div id="doc2" class="yui-t6">
+  <div id="hd">
+    <a href="/index.html">R</a> &#8594; <a href=".."><%= package %></a> &#8594; <%= name %> (demo) 
+    <%= render_snippet("search_bar") %>
+  </div>
+
+  <div id="bd">
+  <div id="yui-main"><div class="yui-b">
+    <h1><%= name %></h1>
+    <p><%= description %></p>
+
+    <h2>Demo Source</h2>
+    <input id="hide_output" type="button" value="Show/Hide Output" onclick="hide_show_output('demo', '<%= package %>', '<%= name %>' );" />
+    <div id="demo_source_code" class="demo_source_code">
+      <%= src %>
+    </div>
+
+
+  </div></div>
+  <div class="yui-b"><div class = "sidebar">
+
+    <% if(dataframe_has_rows(other_demos)) { -%>    
+    <h2><%= other_demos_str %></h2>
+    <dl>
+      <% for(i in seq_len(NROW(other_demos))) {-%>
+      <dt>
+        <%= str_c( "<a href=\"/package/", package, "/demo/", other_demos[i, "Item"], "\" >", other_demos[i, "Item"], "</a>") %>
+      </dt>
+      <dd>
+        <%= other_demos[i, "Title"] %>
+      </dd>
+    <% } %>
+    </dl>
+  <% } %>
+
+  <%= render_snippet("top_functions", list(functions = src_functions, title = src_functions_str)) %>
+    
+  </div></div>
+  
+
+  </div><!-- end bd -->
+
+  <%= render_snippet("footer", list(disqus = TRUE, html = html)) %>
+</div>
+
+    <input id="run_highlight" type="button" value="Execute Highlighted" onclick="run_selected_code('#demo_source_code');" style="position:absolute;" />
+
+</body>
+</html>

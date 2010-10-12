@@ -1,0 +1,34 @@
+
+Solr
+  √index all internal functions of each function
+    √add list to source page
+  √similar solr?
+    √find documents similar to the one looking at
+  √return answers
+    √more truncation
+      √ (smaller results) set to 70 chars
+    √just give answer, not from where (no title necessary)
+    √highlight results on next page (javascript to inspect for referrer, extract q param and then match)
+  √Change Solr params into ?a=5&b=6
+  
+
+
+New
+√  loading a package while you wait needs a screen to tell you that
+√  change log stuff
+√  allow install of single package
+√  make the search bar disappear if solr is not available
+√  add to topic page what similar functions exist in sidebar
+    Solr
+
+Fix Pages
+FAIL - find out how to find out if a topic is a function or not without loading the package
+  REWORK - reorganized the package page to make it independent.  Also used keywords for grouping.
+√ - add in the footer, description, and readme that this is "funded by Revolution Analytics"
+
+Writing
+REVIEW - two paragraph description of "why this is helpful" and "why you should use it"
+
+
+
+? fix topic space for internal function stuff

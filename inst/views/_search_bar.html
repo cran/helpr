@@ -1,0 +1,19 @@
+<span id="search_bar">
+</span>
+<% if(solr_exists()) {-%>
+  <script  type="text/javascript">
+    $(document).ready(function(){
+      $('#search_bar').html("<label for=\"search_bar_input\">Search: </label><input type=\"text\" rel=\"search_bar_input\" id=\"search_bar_input\" >");
+
+      $("#search_bar_input").keyup(function(event){
+        if(event.keyCode == 13){
+          var query = $("#search_bar_input").val();
+          query = $.trim(query);
+          if(query == "")
+            return;
+          $(window.location).attr('href', '/search?start=0&q='+query);
+        }
+      });  
+    })
+  </script>
+<% } %>

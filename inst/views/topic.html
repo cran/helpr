@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <%= render_snippet("html_header") %>
+
+  <%= render_snippet("growl") %>
+
+  <%= render_snippet("disqus_header", list(name = str_c(package, "_topic_",name))) %>
+
+  <script type="text/javascript" src="/_scripts/jquery.highlight-3.yui.js"></script>
+
+  <title><%= name %> / <%= package %>. R help</title>
+</head>
+
+<body onLoad="set_on_click('#example_source_code'); $('#run_highlight').hide(); highlight_text('<%= highlight %>');">
+  <div id="watermark"><%= name %></div>
+  <div id="doc2" class="yui-t4">
+  <div id="hd">
+    <a href="/index.html">R</a> &#8594; <a href=".."><%= package %></a> &#8594; <%= name %> 
+    <% if (length(aliases) > 0) { -%> (aka <%= str_c(aliases, collapse = ", ") %>)
+    <% } %>
+    <% if (nchar(highlight) > 0) { -%>
+      <input type="button" id="remove_highlight_button" onclick="remove_highlight()" value="Remove Highlighting" />
+    <% } %>
+    
+    <%= render_snippet("search_bar") %>
+  </div>
+
+  <div id="bd">
+  <div id="yui-main"><div class="yui-b">
+    <h1><%= title%></h1>
+    <%= desc %>
+
+    <% if(has_text(usage)){ -%>
+      <h2>Usage</h2>
+      <p>Click the functions to view their source</p>
+      <pre><%= usage %></pre>
+    <% } %>
+
+    <% if(dataframe_has_rows(params$args) || has_text(params$pre_text) || has_text(params$post_text)){ -%>
+      <h2>Arguments</h2>
+      <%= params$pre_text %>
+      <table>
+        <% for(param in params$args) { -%>
+          <tr>
+            <td><code><%= param$param %></code></td>
+            <td><%= param$desc %></td>
+          </tr>
+        <% } -%>
+      </table>
+      <%= params$post_text %>
+    <% } %>
+
+    <% if(has_text(details)){ -%>
+      <h2>Details</h2><%= details %>
+    <% }%>
+
+    <% if(has_text(value)){ -%>
+      <h2>Value</h2><%= value %>
+    <% }%>
+
+    <% if(has_text(source)){ -%>
+      <h2>Source</h2><%= source %>
+    <% }%>
+
+    
+  </div></div>
+  <div class="yui-b"><div class = "sidebar">
+    <% if(has_text(seealso)){ -%>
+      <h2>See also</h2>
+      <%= seealso %>
+    <% }%>
+    
+    <% if(has_text(authors)){ -%>
+      <h2><%= author_str %></h2>
+      <%= authors %>
+    <% }%>
+    
+    <% if(dataframe_has_rows(similar) ) { -%>
+      <h2>Similar</h2>
+      <ul>
+      <% for (i in seq_len(nrow(similar))) { -%>
+        <li>
+        <%= str_c("<a href=\"/package/", similar[i, "pkg"], "\" > ", similar[i, "pkg"], "</a>", " :: ", "<a href=\"/package/", similar[i, "pkg"], "/topic/", similar[i, "topic"],"\" > ", similar[i, "topic"], "</a><br />") %>
+        <%= similar[i, "title"] %>
+        </li>
+      <% } %>
+      </ul>
+    <% } %>
+
+    <%= render_snippet("used_in_example", list(d = topic_in_example)) %>
+    
+    
+  </div></div>
+  <br clear="all" />
+  <div id="yui-main"><div id="Example" class="yui-b">
+      <% if(dataframe_has_rows(examples)){ -%>
+        <h2>Examples</h2>
+        <input id="hide_output" type="button" value="Show/Hide Output" onclick="hide_show_output('example', '<%= package %>', '<%= name %>' );" />
+        <div id="example_source_code">
+          <%= examples  %>
+        </div>
+      <% } %>
+  </div></div>
+  <div class="yui-b"><div class = "sidebar">
+
+    <%= render_snippet("top_functions", list(functions = example_functions, title = example_functions_str)) %>
+
+
+  </div></div>
+
+  
+  </div><!-- end bd -->
+
+  <%= render_snippet("footer", list(disqus = TRUE, html = html)) %>
+
+  <input id="run_highlight" type="button" value="Execute Highlighted" onclick="run_selected_code('#example_source_code')" />
+
+</body>
+</html>
